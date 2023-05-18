@@ -1,25 +1,14 @@
-<html>
+<html layout:decorate="~{layouts/layout}">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Вход</title>
+        <link href="../../static/css/auth.css" media="all" rel="stylesheet" th:href="@{/css/auth.css}" type="text/css">
     </head>
 
     <body>
-        <header>
-            <a th:href="@{/products}">Товары</a>
-            <a sec:authorize="isAnonymous()" th:href="@{/auth/login}">Вход</a>
-            <a sec:authorize="isAuthenticated()" th:href="@{/cart}">Корзина</a>
-            <a sec:authorize="isAuthenticated()" th:href="@{/orders}">Заказы</a>
-            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/orders}">Заказы всех пользователей</a>
-            
-            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="POST">
-                <input type="submit" value="Выход">
-            </form>
-        </header>
-
-        <div>
+        <div id="register_ask" layout:fragment="sidebar">
             <h3>Не зарегистрированы?</h3>
         
             <form th:action="@{/auth/register}" th:method="GET">
@@ -27,7 +16,7 @@
             </form>
         </div>
         
-        <div>
+        <div layout:fragment="content">
             <h1>Вход</h1>
         
             <form class="auth" name="login_form" th:action="@{/login}" th:method="POST">

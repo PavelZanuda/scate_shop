@@ -1,25 +1,14 @@
-<html>
+<html layout:decorate="~{layouts/layout}">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Товары</title>
+        <link href="../../static/css/products.css" media="all" rel="stylesheet" th:href="@{/css/products.css}" type="text/css">
     </head>
 
     <body>
-        <header>
-            <a th:href="@{/products}">Товары</a>
-            <a sec:authorize="isAnonymous()" th:href="@{/auth/login}">Вход</a>
-            <a sec:authorize="isAuthenticated()" th:href="@{/cart}">Корзина</a>
-            <a sec:authorize="isAuthenticated()" th:href="@{/orders}">Заказы</a>
-            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/orders}">Заказы всех пользователей</a>
-            
-            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="POST">
-                <input type="submit" value="Выход">
-            </form>
-        </header>
-
-        <div>
+        <div layout:fragment="sidebar">
             <h3>Поиск</h3>
 
             <form id="search_form" th:action="@{/products}" th:method="GET">
@@ -42,18 +31,18 @@
                     <option value="clothes">Одежда</option>
                 </select>
 
-                <input type="submit" value="применить">
+                <input type="submit" value="Применить">
             </form>
 
-            <form sec:authorize="hasRole('ADMIN')" th:action="@{/products/add}" th:method="GET">
+            <form sec:authorize="hasRole('ADMIN')" th:action="@{/products/add}" th:method="GET" id="add_product_admin">
                 <input type="submit" value="Добавить товар (admin)">
             </form>
         </div>
 
-        <div>
+        <div layout:fragment="content">
             <h1>Товары</h1>
 
-            <div>
+            <div class="products">
                 <div th:each="product : ${products}">
                     <img th:src="@{'/images/' + ${product.fileName}}" width="256px">
                     <p><a th:href="@{/products/{id}(id=${product.id})}" th:text="${product.title}">Товар</a></p>
@@ -62,7 +51,7 @@
             </div>
         </div>
 
-        <script>
+        <script layout:fragment="script">
             var myForm = document.getElementById('search_form');
 
             myForm.addEventListener('submit', function (e) {
